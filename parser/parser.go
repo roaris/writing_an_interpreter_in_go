@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"writing_an_interpreter_in_go/ast"
 	"writing_an_interpreter_in_go/lexer"
 	"writing_an_interpreter_in_go/token"
@@ -11,16 +12,30 @@ type Parser struct {
 
 	curToken  token.Token // 現在調べているトークン
 	peekToken token.Token // curTokenから十分な情報が得られない時に必要
+
+	errors []string
 }
 
 func New(l *lexer.Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{
+		l:      l,
+		errors: []string{},
+	}
 
 	// curTokenとpeekTokenの両方をセットする
 	p.nextToken()
 	p.nextToken()
 
 	return p
+}
+
+func (p *Parser) Errors() []string {
+	return p.errors
+}
+
+func (p *Parser) peekError(t token.TokenType) {
+	msg := fmt.Sprintf("expected next token to be %s, got %s instead", t, p.peekToken.Type)
+	p.errors = append(p.errors, msg)
 }
 
 func (p *Parser) nextToken() {
@@ -86,6 +101,7 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 		p.nextToken()
 		return true
 	} else {
+		p.peekError(t)
 		return false
 	}
 }
