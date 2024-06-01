@@ -16,8 +16,14 @@ func TestNextToken(t *testing.T) {
 	let result = add(five, ten);
 	!-/*5;
 	5 < 10 > 5;
+
+	if (5 < 10) {
+		return true;
+	} else {
+		return false;
+	}
 	`
-	// ↑字句解析器のテストが出来れば良いので、適当で良い
+	// !-/*5 ← 字句解析器のテストが出来れば良いので、適当で良い
 
 	tests := []struct {
 		expectedType    token.TokenType
