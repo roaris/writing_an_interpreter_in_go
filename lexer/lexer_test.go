@@ -25,6 +25,8 @@ func TestNextToken(t *testing.T) {
 
 	10 == 10;
 	10 != 9;
+	"foobar"
+	"foo bar"
 	`
 	// !-/*5 ← 字句解析器のテストが出来れば良いので、適当で良い
 
@@ -105,6 +107,8 @@ func TestNextToken(t *testing.T) {
 		{token.NOT_EQ, "!="},
 		{token.INT, "9"},
 		{token.SEMICOLON, ";"},
+		{token.STRING, "foobar"},
+		{token.STRING, "foo bar"},
 		{token.EOF, ""},
 	}
 
