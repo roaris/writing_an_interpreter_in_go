@@ -11,6 +11,7 @@ var (
 	FALSE = &object.Boolean{Value: false}
 )
 
+// interfaceはポインタ!!
 func Eval(node ast.Node) object.Object {
 	switch node := node.(type) {
 	case *ast.Program:
@@ -104,7 +105,7 @@ func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 
 func evalInfixExpression(operator string, left, right object.Object) object.Object {
 	switch {
-	case left.Type() == object.INTEGER_OBJ && right.Type() == object.INTEGER_OBJ: // ==よりも後に書くと、1 == 1がfalseになる
+	case left.Type() == object.INTEGER_OBJ && right.Type() == object.INTEGER_OBJ: // operator == "==" よりも後に書くと、1 == 1がfalseになる
 		return evalIntegerInfixExpression(operator, left, right)
 	case operator == "==":
 		return nativeBoolToBooleanObject(left == right)

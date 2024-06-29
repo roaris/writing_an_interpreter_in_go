@@ -16,6 +16,7 @@ func TestEvalIntegerExpression(t *testing.T) {
 		{"10", 10},
 		{"-5", -5},
 		{"-10", -10},
+		{"2 + 3", 5},
 		{"5 + 5 + 5 + 5 - 10", 10},
 		{"2 * 2 * 2 * 2 * 2", 32},
 		{"-50 + 100 + -50", 0},
@@ -170,6 +171,7 @@ func TestReturnStatements(t *testing.T) {
 			return 1;
 		}
 		`, 10},
+		{`return 10; return 20;`, 10},
 	}
 
 	for _, tt := range tests {
