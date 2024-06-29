@@ -327,3 +327,29 @@ func TestClosures(t *testing.T) {
 	`
 	testIntegerObject(t, testEval(input), 4)
 }
+
+func TestUnwrapReturnValue(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected int64
+	}{
+		{"let f = fn(x) { return x + 2; }; if (1) { f(2); return 1; };", 1},
+	}
+
+	for _, tt := range tests {
+		testIntegerObject(t, testEval(tt.input), tt.expected)
+	}
+}
+
+// 変数の巻き上げ(Hoisting) https://analogic.jp/hoisting/
+// 関数の宣言時にyが宣言されていなくても、エラーにならない
+func TestHoisting(t *testing.T) {
+	input := `
+	let addTwo = fn(x) {
+		x + y;
+	};
+	let y = 2;
+	addTwo(2);
+	`
+	testIntegerObject(t, testEval(input), 4)
+}
